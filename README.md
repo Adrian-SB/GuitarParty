@@ -1,4 +1,4 @@
 # GuitarParty_Python
 API de GuitarParty
 
-Utilización de información optenida de la página GuitarParty.
+Utilización de información obtenida de la página GuitarParty.
