@@ -30,7 +30,8 @@ if r.status_code == 200:
     text=r.json()
     print text["objects"][0]["title"]
     print text["objects"][0]["uri"]
-    print text["objects"][0]["chords"]
+    print text["objects"][0]["chords"][1]["instrument"]["name"]
+    print text["objects"][0]["chords"][1]["name"] + ' --> ' + text["objects"][0]["chords"][1]["image_url"]
     print text["objects"][0]["authors"][1]["types"]
     print text["objects"][0]["authors"][1]["name"]
     print text["objects"][0]["authors"][1]["uri"]
@@ -48,6 +49,31 @@ if r.status_code == 200:
     print 'Afinacion: ',text["objects"][0]["instrument"]["tuning"]
     print 'Imagen: ',  text["objects"][0]["image_url"]
  
+#Muestra las fiestas que han sido creadas
+
+@router('/fiestas')
+def listafiesta():
+r=requests.get(url+'parties/',headers=headers)
+if r.status_code == 200:
+    text=r.json()
+    print text["objects"][0]["title"]
+    print text["objects"][0]["description"]
+    print text["objects"][0]["current_song"]
+    print text["objects"][0]["short_code"]
+    print text["objects"][0]["human_uri"]
+
+#Crea fiestas
+
+@router('/crearfiestas')
+def crearfiesta():
+
+fiesta={"title": "FEDERICOOOOO","description": "DON FEDERICOOOOOOOO","current_song": 5,"song_seed": 5}
+
+r=requests.post(url+'parties/', json=fiesta ,headers=headers)
+if r.status_code != 201:
+	print "Fiesta creada"
+
+	
 
 if __name__ == '__main__':
 	run(host='0.0.0.0',port=argv[1])
