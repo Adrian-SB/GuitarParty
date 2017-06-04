@@ -5,9 +5,9 @@ import json
 headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b'}
 url='http://api.guitarparty.com/v2/'
 
-@route('/', method="get")
+@route('/Inicio')
 def intro():
-	return template('template.tpl')
+    return template('header.tpl')
 
 #Busqueda por artista
 
