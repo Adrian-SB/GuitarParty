@@ -1,15 +1,17 @@
-from bottle import Bottle,route,run,request,template
+# -*- coding: utf-8 -*-
+
+from bottle import route,run,request,template,static_file,error
 
 headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b'}
 url='http://api.guitarparty.com/v2/'
 
-@route('/inicio')
+@route('/')
 def inicio():
-	return template('header.tpl')
+	return template('inicio.tpl')
 
 #Busca el nombre dle artista un le muestra el nombre completo y la bigrafia.
 
-@route('/inicio/artista', method="post")
+@route('/artista', method="post")
 def artista():
 	artista = request.forms.get('artista')
 	r=requests.get(url+'artists/?query='+artista,headers=headers)
@@ -19,12 +21,12 @@ def artista():
 	    nombrecompleto =  text["objects"][0]["name"]
 	    biografia = text["objects"][0]["bio"]
 
-	return template("resultadoartista.tpl", artista=artista, nombrecompleto=nombrecompleto, biografia=biografia)
+	return template("resul_artista.tpl", artista=artista, nombrecompleto=nombrecompleto, biografia=biografia)
 
 #Busqueda por canciones
 
-@route('/inicio/canciones', method="post")
-def canciones():
+@route('/cancion', method="post")
+def cancion():
 	cancion= reques.forms.get('cancion')
 	r=requests.get(url+'songs/?query='+cancion,headers=headers)
 	if r.status_code == 200:
@@ -43,7 +45,7 @@ def canciones():
 
 #Muestra informacion sobre los acordes
 
-@route('inicio/acordes', method="post")
+@route('/acorde', method="post")
 def acorde():
 	acorde = reques.forms.get('acorde')
 	r=requests.get(url+'chords/?query='+acorde,headers=headers)
@@ -60,7 +62,7 @@ def acorde():
 
 #Crear fiestas - Revisar
 
-@route('inicio/crearfiestas', method="post")
+@route('/crearfiestas', method="post")
 def crearfiesta():
 
 	titulo= reques.forms.get('titulo')
@@ -75,7 +77,7 @@ def crearfiesta():
 
 #Muestra las fiestas que han sido creadas
 
-@route('inicio/fiestas', method="post")
+@route('/fiestas', method="post")
 def listafiesta():
 	r=requests.get(url+'parties/',headers=headers)
 	if r.status_code == 200:
@@ -88,6 +90,14 @@ def listafiesta():
 	    codusuario = text["objects"][0]["human_uri"]
 
 	return template("resultadofiestas.tpl", titulo=titulo, descripcion=descripcion, codcancion=codcancion, codacorde=codacorde, codusuario=codusuario) 
+
+@route('/static/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root='static')
+
+@error(404)
+def error404(error):
+    return 'Página no encontrada'
 
 run(host='0.0.0.0', port=8080)
 
