@@ -4,8 +4,8 @@ from sys import argv
 import bottle
 from bottle import Bottle,route,run,request,template,static_file,error,redirect,get,post
 import requests
+import os
 
-bottle.debug(True)
 
 headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b'}
 url='http://api.guitarparty.com/v2/'
