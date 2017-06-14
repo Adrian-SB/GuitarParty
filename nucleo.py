@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from sys import argv
 from bottle import route,run,request,template,static_file,error,redirect
 import requests
 
+bottle.debug(True)
 
 headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b'}
 url='http://api.guitarparty.com/v2/'
