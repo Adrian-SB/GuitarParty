@@ -1,17 +1,50 @@
 # -*- coding: utf-8 -*-
 
-from bottle import route,run,request,template,static_file,error
+from bottle import route,run,request,template,static_file,error,redirect
+import requests
+
 
 headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b'}
 url='http://api.guitarparty.com/v2/'
+
+#Páginas
 
 @route('/')
 def inicio():
 	return template('inicio.tpl')
 
-#Busca el nombre dle artista un le muestra el nombre completo y la bigrafia.
+@route('/artista')
+def in_artista():
+	return template('bus_artista.tpl')
 
-@route('/artista', method="post")
+@route('/cancion')
+def in_cacnion():
+	return template('bus_cancion.tpl')
+
+@route('/acorde')
+def inicio_acorde():
+	return template('bus_acorde.tpl')
+
+@route('/fiesta')
+def in_fiesta():
+	return template('form_fiesta.tpl')
+
+@route('/fiesta/crea_crearfiestas/ok')
+def in_mensaje():
+	return template('fiesta_ok.tpl')
+
+@route('/mensaje')
+def in_mensaje():
+	return template('form_mensaje.tpl')
+
+@route('/mensaje/enviar/ok')
+def in_mensaje():
+	return template('mensaje_ok.tpl')
+
+
+#Busca el nombre del artista un le muestra el nombre completo y la biografía.
+
+@route('/artista/resultado_artista', method="post")
 def artista():
 	artista = request.forms.get('artista')
 	r=requests.get(url+'artists/?query='+artista,headers=headers)
@@ -21,13 +54,13 @@ def artista():
 	    nombrecompleto =  text["objects"][0]["name"]
 	    biografia = text["objects"][0]["bio"]
 
-	return template("resul_artista.tpl", artista=artista, nombrecompleto=nombrecompleto, biografia=biografia)
+	return template("result_artista.tpl", artista=artista, nombrecompleto=nombrecompleto, biografia=biografia)
 
 #Busqueda por canciones
 
-@route('/cancion', method="post")
+@route('/cancion/bus_cancion', method="post")
 def cancion():
-	cancion= reques.forms.get('cancion')
+	cancion= request.forms.get('cancion')
 	r=requests.get(url+'songs/?query='+cancion,headers=headers)
 	if r.status_code == 200:
 	    text=r.json()
@@ -41,13 +74,13 @@ def cancion():
 	    nombreautor = text["objects"][0]["authors"][1]["name"]
 	    autorcodigo = text["objects"][0]["authors"][1]["uri"]
 
-	return template("resultadocancion.tpl", cancion=cancion, titulo=titulo, codigo=codigo, instrumento=instrumento,acorde=acorde, fotoacorde=fotoacorde, tipo=tipo, nombreautor=nombreautor, autorcodigo=autorcodigo)
+	return template("result_cancion.tpl", cancion=cancion, titulo=titulo, codigo=codigo, instrumento=instrumento,acorde=acorde, fotoacorde=fotoacorde, tipo=tipo, nombreautor=nombreautor, autorcodigo=autorcodigo)
 
 #Muestra informacion sobre los acordes
 
-@route('/acorde', method="post")
+@route('/acorde/bus_acorde', method="post")
 def acorde():
-	acorde = reques.forms.get('acorde')
+	acorde = request.forms.get('acorde')
 	r=requests.get(url+'chords/?query='+acorde,headers=headers)
 	if r.status_code == 200:
 	    text=r.json()
@@ -57,39 +90,24 @@ def acorde():
 	    afinacion = text["objects"][0]["instrument"]["tuning"]
 	    imagen = text["objects"][0]["image_url"]
 
-	return template("resultadocancion.tpl", acorde=acorde, nombreacorde=nombreacorde, instrumento=instrumento, afinacion=afinacion,imagen=imagen)
+	return template("result_acorde.tpl", acorde=acorde, nombreacorde=nombreacorde, instrumento=instrumento, afinacion=afinacion,imagen=imagen)
 
 
-#Crear fiestas - Revisar
+#Crear fiestas 
 
-@route('/crearfiestas', method="post")
+@route('/fiesta/crea_crearfiestas', method="post")
 def crearfiesta():
 
-	titulo= reques.forms.get('titulo')
-	descripcion= reques.forms.get('descripcion')
-	codcancion= reques.forms.get('codcancion')
+	titulo= request.forms.get('titulo')
+	descripcion= request.forms.get('descripcion')
+	codcancion= request.forms.get('codcancion')
 
 	fiesta={"title": "titulo","description": "descripcion","current_song": codcancion}
 
 	r=requests.post(url+'parties/', data=fiesta ,headers=headers)
 	if r.status_code != 201:
-		return template("resultadofiestas.tpl") 
-
-#Muestra las fiestas que han sido creadas
-
-@route('/fiestas', method="post")
-def listafiesta():
-	r=requests.get(url+'parties/',headers=headers)
-	if r.status_code == 200:
-	    text=r.json()
-
-	    titulo = text["objects"][0]["title"]
-	    descripcion = text["objects"][0]["description"]
-	    codcancion = text["objects"][0]["current_song"]
-	    codacorde = text["objects"][0]["short_code"]
-	    codusuario = text["objects"][0]["human_uri"]
-
-	return template("resultadofiestas.tpl", titulo=titulo, descripcion=descripcion, codcancion=codcancion, codacorde=codacorde, codusuario=codusuario) 
+		return redirect("/fiesta/crea_crearfiestas/ok") 
+	    
 
 @route('/static/<filepath:path>')
 def server_static(filepath):
