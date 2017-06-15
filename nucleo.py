@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
-import bottle
-from bottle import Bottle,route,run,request,template,static_file,error,redirect,get,post
+#-*-coding:utf-8-*-
+from bottle import *
+from lxml import etree
 import requests
+import os
 from sys import argv
 import json
-
-
 
 headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b'}
 url='http://api.guitarparty.com/v2/'
@@ -117,9 +115,6 @@ def crearfiesta():
 def server_static(filepath):
     return static_file(filepath, root='static')
 
-@error(404)
-def error404(error):
-    return 'Página no encontrada'
 
 run(host='0.0.0.0',port=argv[1])
 
