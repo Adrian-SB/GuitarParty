@@ -1,3 +1,8 @@
 bottle
 gunicorn
 requests
+appdirs
+lxml
+packaging
+pytz
+six
