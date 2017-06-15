@@ -6,7 +6,9 @@ import os
 from sys import argv
 import json
 
-headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b'}
+#6115b4a078d150136759b6e1b85dfba83b68190b
+
+headers={'Guitarparty-Api-Key': 'key'}
 url='http://api.guitarparty.com/v2/'
 
 #Páginas
