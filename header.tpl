@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="es">
+<html lang="es"/>
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <title></title><link href="/static/style.css" rel="stylesheet" type="text/css"></head><body>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+    <title>Guitar Party</title><link href="/static/style.css" rel="stylesheet" type="text/css"></head><body>
     <div id="main">
         <div id="header">
             <h1><a href="/">Guitar Party</a></h1>
