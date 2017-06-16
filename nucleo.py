@@ -10,7 +10,7 @@ import json
 
 key = os.environ["key"]
 
-headers={'Guitarparty-Api-Key': 'key'}
+headers={'Guitarparty-Api-Key': key }
 url='http://api.guitarparty.com/v2/'
 
 #Páginas
