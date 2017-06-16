@@ -5,8 +5,6 @@ import os
 from sys import argv
 import json
 
-#6115b4a078d150136759b6e1b85dfba83b68190b
-
 key = os.environ["key"]
 
 headers={'Guitarparty-Api-Key': key }
