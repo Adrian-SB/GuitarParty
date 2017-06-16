@@ -1,6 +1,5 @@
 #-*-coding:utf-8-*-
 from bottle import *
-from lxml import etree
 import requests
 import os
 from sys import argv
