@@ -74,27 +74,26 @@ def cancion():
 	lis_nombreautor = []
 
 	if r.status_code == 200:
-	    text=r.json()
-	    canciones = r.text
-		busqueda_cancion = json.loads(canciones)
+		canciones = r.text
+		bus_cancion = json.loads(canciones)
+		
+		for titulos in bus_cancion["objects"]:
+			lis_titulo.append(titulos["title"])
 
-	    for titulos in busqueda_cancion["objects"]:
-	    	lis_titulo.append(titulos["title"])
+		for instrumentos in bus_cancion["objects"]["chords"]["instrument"]:
+			lis_instrumento.append(instrumentos["name"])
+		
+		for acordes in bus_cancion["objects"]["chords"]:
+			lis_acorde.append(acordes["name"])
 
-	    for instrumentos in busqueda_cancion["objects"]["chords"]["instrument"]:
-	    	lis_instrumento.append(instrumentos["name"])
+		for fotos in bus_cancion["objects"]["chords"]:
+			lis_fotoacorde.append(fotos["image_url"])
 
-	    for acordes in busqueda_cancion["objects"]["chords"]:
-	    	lis_acorde.append(acordes["name"])
+		for tipos in bus_cancion["objects"]["authors"]:
+			lis_tipo.append(tipos["types"])
 
-	    for fotos in busqueda_cancion["objects"]["chords"]:
-	    	lis_fotoacorde.append(fotos["image_url"])
-
-	    for tipos in busqueda_cancion["objects"]["authors"]:
-	    	lis_tipo.append(tipos["types"])
-
-	    for nombresautores in busqueda_cancion["objects"]["authors"]:
-	    	lis_nombreautor.append(nombresautores["name"])
+		for nombresautores in bus_cancion["objects"]["authors"]:
+			lis_nombreautor.append(nombresautores["name"])
 
 
 	return template("result_cancion.tpl",lis_titulo=lis_titulo,lis_instrumento=lis_instrumento,lis_acorde=lis_acorde, lis_fotoacorde=lis_fotoacorde, lis_nombreautor=lis_nombreautor)
