@@ -78,22 +78,22 @@ def cancion():
 	    canciones = r4.text
 		busqueda_cancion = json.loads(canciones)
 
-	    for titulos in bus_cancion["objects"]:
+	    for titulos in busqueda_cancion["objects"]:
 	    	lis_titulo.append(titulos["title"])
 
-	    for instrumentos in bus_cancion["objects"]["chords"]["instrument"]:
+	    for instrumentos in busqueda_cancion["objects"]["chords"]["instrument"]:
 	    	lis_instrumento.append(instrumentos["name"])
 
-	    for acordes in bus_cancion["objects"]["chords"]:
+	    for acordes in busqueda_cancion["objects"]["chords"]:
 	    	lis_acorde.append(acordes["name"])
 
-	    for fotos in bus_cancion["objects"]["chords"]:
+	    for fotos in busqueda_cancion["objects"]["chords"]:
 	    	lis_fotoacorde.append(fotos["image_url"])
 
-	    for tipos in bus_cancion["objects"]["authors"]:
+	    for tipos in busqueda_cancion["objects"]["authors"]:
 	    	lis_tipo.append(tipos["types"])
 
-	    for nombresautores in bus_cancion["objects"]["authors"]:
+	    for nombresautores in busqueda_cancion["objects"]["authors"]:
 	    	lis_nombreautor.append(nombresautores["name"])
 
 
