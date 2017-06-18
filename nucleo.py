@@ -76,25 +76,25 @@ def cancion():
 	if r.status_code == 200:
 	    text=r.json()
 	    canciones = r4.text
-		bus_cancion = json.loads(canciones)
+		busqueda_cancion = json.loads(canciones)
 
 	    for titulos in bus_cancion["objects"]:
-	    	lis_titulo.append(t["title"])
+	    	lis_titulo.append(titulos["title"])
 
 	    for instrumentos in bus_cancion["objects"]["chords"]["instrument"]:
-	    	lis_instrumento.append(i["name"])
+	    	lis_instrumento.append(instrumentos["name"])
 
 	    for acordes in bus_cancion["objects"]["chords"]:
-	    	lis_acorde.append(a["name"])
+	    	lis_acorde.append(acordes["name"])
 
 	    for fotos in bus_cancion["objects"]["chords"]:
-	    	lis_fotoacorde.append(i["image_url"])
+	    	lis_fotoacorde.append(fotos["image_url"])
 
 	    for tipos in bus_cancion["objects"]["authors"]:
-	    	lis_tipo.append(t["types"])
+	    	lis_tipo.append(tipos["types"])
 
 	    for nombresautores in bus_cancion["objects"]["authors"]:
-	    	lis_nombreautor.append(t["name"])
+	    	lis_nombreautor.append(nombresautores["name"])
 
 
 	return template("result_cancion.tpl",lis_titulo=lis_titulo,lis_instrumento=lis_instrumento,lis_acorde=lis_acorde, lis_fotoacorde=lis_fotoacorde, lis_nombreautor=lis_nombreautor)
