@@ -75,7 +75,7 @@ def cancion():
 
 	if r.status_code == 200:
 	    text=r.json()
-	    canciones = r4.text
+	    canciones = r.text
 		busqueda_cancion = json.loads(canciones)
 
 	    for titulos in busqueda_cancion["objects"]:
