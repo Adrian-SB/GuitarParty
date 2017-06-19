@@ -6,10 +6,10 @@ from sys import argv
 import json
 
 
-#key = os.environ["key"]
-key='6115b4a078d150136759b6e1b85dfba83b68190b'
-key2="AIzaSyAXZU_klDyjCtBARY2rAxhnYRGyNgqq97Q"
-key3="8f8432be1e7ba57fbe8e61b5f1390a92"
+key = os.environ["key"]
+key2= os.environ["key"]
+key3 = os.environ["key"]
+
 
 
 headers={'Guitarparty-Api-Key': key }
