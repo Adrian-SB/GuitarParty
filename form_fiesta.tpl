@@ -9,6 +9,6 @@
                     	<input type="text" name = "descripcion" class="text"></form></p>
                     	<h3>Canción</h3>
                     	<p><form method="post" action="/fiesta/crea_crearfiestas" accept-charset="utf-8">
-                    	<input type="text" name = "cancion" class="text"></form>
+                    	<input type="text" name = "cancion" class="text"></form></p>
 %include('footer.tpl')
 

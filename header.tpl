@@ -13,6 +13,7 @@
                     <li><a href="/cancion">Canción</a></li>
                     <li><a href="/acorde">Acorde</a></li>
                     <li><a href="/fiesta">Crear fiesta</a></li>
+                    <li><a href="/listado">Listado de fiestas</a></li>
                 </ul></div></div>
         <div id="middle"><div id="middle2">
                 <div id="left">

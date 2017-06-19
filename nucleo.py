@@ -33,9 +33,6 @@ def inicio_acorde():
 def in_fiesta():
 	return template('form_fiesta.tpl')
 
-@route('/listado')
-def in_listado():
-	return template('result_listado.tpl')
 
 @route('/fiesta/crea_crearfiestas/ok')
 def in_mensaje():
@@ -77,9 +74,6 @@ def cancion():
 	
 	lis_titulo = []
 	lis_instrumento = []
-	lis_acorde2 = []
-	lis_acorde = []
-	lis_fotoacorde = []
 	lis_tipo = []
 	lis_nombreautor = []
 
@@ -91,14 +85,10 @@ def cancion():
 			lis_titulo.append(t["title"])
 			lis_tipo.append(t["authors"][0]["types"])
 			lis_instrumento.append(t["chords"][0]["instrument"]["name"])
-			for ac in t["chords"][0]["name"]:
-				lis_acorde.append(ac)
-			lis_acorde2.append(t["chords"][0]["name"])
-			lis_fotoacorde.append(t["chords"][0]["image_url"])
 			lis_nombreautor.append(t["authors"][0]["name"])
-			lis_acorde.insert(0, lis_acorde2)
+			
 
-	return template("result_cancion.tpl",lis_titulo=lis_titulo,lis_tipo=lis_tipo,lis_instrumento=lis_instrumento,lis_acorde=lis_acorde, lis_fotoacorde=lis_fotoacorde, lis_nombreautor=lis_nombreautor)
+	return template("result_cancion.tpl",lis_titulo=lis_titulo,lis_tipo=lis_tipo,lis_instrumento=lis_instrumento, lis_nombreautor=lis_nombreautor)
 
 #Muestra informacion sobre los acordes
 
@@ -134,7 +124,7 @@ def crearfiesta():
 
 #Muestra las fiestas
 
-@route('/fiesta/listado', method="post")
+@route('/listado', method="get")
 def listado():
 
 	r=requests.get(url+'parties/',headers=headers)
@@ -151,7 +141,7 @@ def listado():
 			lis_descf.append(l["description"])
 			lis_url.append(l["human_uri"])
 
-	return redirect("/listado", lis_tif=lis_tif,lis_descf=lis_descf,lis_url=lis_url)
+		return template("result_listado.tpl", lis_tif=lis_tif,lis_descf=lis_descf,lis_url=lis_url)
 
 
 @route('/static/<filepath:path>')
