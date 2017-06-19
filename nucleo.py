@@ -5,9 +5,10 @@ import os
 from sys import argv
 import json
 
-key = os.environ["key"]
 
-headers={'Guitarparty-Api-Key': key }
+#key = os.environ["key"]
+
+headers={'Guitarparty-Api-Key': '6115b4a078d150136759b6e1b85dfba83b68190b' }
 url='http://api.guitarparty.com/v2/'
 
 #Páginas
@@ -32,6 +33,10 @@ def inicio_acorde():
 def in_fiesta():
 	return template('form_fiesta.tpl')
 
+@route('/listado')
+def in_listado():
+	return template('result_listado.tpl')
+
 @route('/fiesta/crea_crearfiestas/ok')
 def in_mensaje():
 	return template('fiesta_ok.tpl')
@@ -45,19 +50,23 @@ def in_mensaje():
 	return template('mensaje_ok.tpl')
 
 
-#Busca el nombre del artista un le muestra el nombre completo y la biografía.
+#Busca el nombre del artista,muestra el nombre completo y la biografía.
 
 @route('/artista/resultado_artista', method="post")
 def artista():
 	artista = request.forms.get('artista')
 	r=requests.get(url+'artists/?query='+artista,headers=headers)
+
+	lis_nombrecompleto = []
+	lis_biografia = []
+
 	if r.status_code == 200:
-	    text=r.json()  
+		bus_artista = json.loads(r.text)
+	   	for art in bus_artista.get("objects"):
+	   		lis_nombrecompleto.append(art["name"])
+	   		lis_biografia.append(art["bio"])
 
-	    nombrecompleto =  text["objects"][0]["name"]
-	    biografia = text["objects"][0]["bio"]
-
-	return template("result_artista.tpl", artista=artista, nombrecompleto=nombrecompleto, biografia=biografia)
+	return template("result_artista.tpl", lis_nombrecompleto=lis_nombrecompleto, lis_biografia=lis_biografia)
 
 #Busqueda por canciones
 
@@ -68,35 +77,28 @@ def cancion():
 	
 	lis_titulo = []
 	lis_instrumento = []
+	lis_acorde2 = []
 	lis_acorde = []
 	lis_fotoacorde = []
 	lis_tipo = []
 	lis_nombreautor = []
 
 	if r.status_code == 200:
-		canciones = r.text
-		bus_cancion = json.loads(canciones)
+		 
+		bus_cancion = json.loads(r.text)
 		
-		for titulos in bus_cancion["objects"]:
-			lis_titulo.append(titulos["title"])
+		for t in bus_cancion["objects"]:
+			lis_titulo.append(t["title"])
+			lis_tipo.append(t["authors"][0]["types"])
+			lis_instrumento.append(t["chords"][0]["instrument"]["name"])
+			for ac in t["chords"][0]["name"]:
+				lis_acorde.append(ac)
+			lis_acorde2.append(t["chords"][0]["name"])
+			lis_fotoacorde.append(t["chords"][0]["image_url"])
+			lis_nombreautor.append(t["authors"][0]["name"])
+			lis_acorde.insert(0, lis_acorde2)
 
-		for instrumentos in bus_cancion["objects"]["chords"]["instrument"]:
-			lis_instrumento.append(instrumentos["name"])
-		
-		for acordes in bus_cancion["objects"]["chords"]:
-			lis_acorde.append(acordes["name"])
-
-		for fotos in bus_cancion["objects"]["chords"]:
-			lis_fotoacorde.append(fotos["image_url"])
-
-		for tipos in bus_cancion["objects"]["authors"]:
-			lis_tipo.append(tipos["types"])
-
-		for nombresautores in bus_cancion["objects"]["authors"]:
-			lis_nombreautor.append(nombresautores["name"])
-
-
-	return template("result_cancion.tpl",lis_titulo=lis_titulo,lis_instrumento=lis_instrumento,lis_acorde=lis_acorde, lis_fotoacorde=lis_fotoacorde, lis_nombreautor=lis_nombreautor)
+	return template("result_cancion.tpl",lis_titulo=lis_titulo,lis_tipo=lis_tipo,lis_instrumento=lis_instrumento,lis_acorde=lis_acorde, lis_fotoacorde=lis_fotoacorde, lis_nombreautor=lis_nombreautor)
 
 #Muestra informacion sobre los acordes
 
@@ -129,7 +131,28 @@ def crearfiesta():
 	r=requests.post(url+'parties/', data=fiesta ,headers=headers)
 	if r.status_code != 201:
 		return redirect("/fiesta/crea_crearfiestas/ok") 
-	    
+
+#Muestra las fiestas
+
+@route('/fiesta/listado', method="post")
+def listado():
+
+	r=requests.get(url+'parties/',headers=headers)
+
+	lis_tif = []
+	lis_descf = []
+	lis_url = []
+
+	if r.status_code == 200:
+		bus_listado = json.loads(r.text)
+			
+		for l in bus_listado["objects"]:
+			lis_tif.append(l["title"])
+			lis_descf.append(l["description"])
+			lis_url.append(l["human_uri"])
+
+	return redirect("/listado", lis_tif=lis_tif,lis_descf=lis_descf,lis_url=lis_url)
+
 
 @route('/static/<filepath:path>')
 def server_static(filepath):
