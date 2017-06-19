@@ -3,7 +3,7 @@
         <p><h2>{{titulos}}</h2></p>
         <p>Tipo: {{tipos[0]}}</p>
         <p>Instrumento: {{instrumentos}}</p>
-		<p>Autor: {{nombresautores}}</p>
+		<p>Autor: {{nombresautores}}</p>	
 %end
 %include('footer.tpl')
 
