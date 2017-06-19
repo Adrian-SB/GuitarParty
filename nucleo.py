@@ -7,8 +7,8 @@ import json
 
 
 key = os.environ["key"]
-key2= os.environ["key"]
-key3 = os.environ["key"]
+key2= os.environ["key2"]
+key3 = os.environ["key3"]
 
 
 
